@@ -1,5 +1,6 @@
 package edu.csulb.android.groupproject;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,6 +11,10 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,9 +23,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class MapsActivity extends FragmentActivity {
 
@@ -36,19 +43,6 @@ public class MapsActivity extends FragmentActivity {
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.getUiSettings().setZoomGesturesEnabled(true);
         }
-
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-
-        Parse.initialize(this, "fdgb3DiwkZokytY9wwMjxCZXLXnRiRK69YpPPhtX",
-                "Kui6CxsP31Wt54V3P4DciY38k6ODbBPtFMGD6khP");
-
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("testouille", "tousteille");
-        testObject.put("testouille2", "tousteille2  ");
-        testObject.saveInBackground();
-
-        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
     @Override
@@ -57,21 +51,6 @@ public class MapsActivity extends FragmentActivity {
         setUpMapIfNeeded();
     }
 
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
@@ -108,7 +87,6 @@ public class MapsActivity extends FragmentActivity {
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
             canvas.drawBitmap(bitmap, rect, rect, paint);
         } catch (NullPointerException e) {
-// return bitmap;
         } catch (OutOfMemoryError o){}
         return result;
     }
@@ -143,5 +121,37 @@ public class MapsActivity extends FragmentActivity {
 
         if (mMap != null)
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.783768,-118.114336), 10));
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                //Intent intent = new Intent(MainActivity.this,Example.class);
+                //startActivity(intent);
+                Log.d("artaerteratae", marker.getTitle() + "yuytdyr");
+                Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.Logout:
+                ParseUser.logOut();
+                Intent login = new Intent(this, LoginActivity.class);
+                startActivity(login);
+                finish();
+                break;
+        }
+        return true;
     }
 }
