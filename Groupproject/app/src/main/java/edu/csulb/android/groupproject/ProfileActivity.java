@@ -6,14 +6,19 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -21,13 +26,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by ahmed on 08/05/15.
  */
 public class ProfileActivity extends Activity {
     private TextView t_name, t_age,t_profession,t_description,t_hobbies;
-    private ImageView profile_image;
+    private ImageView profile_image,icon;
+    private String extra_name;
+    private TextView t_title_description;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,33 +51,48 @@ public class ProfileActivity extends Activity {
         t_description = (TextView) findViewById(R.id.description);
         t_hobbies = (TextView) findViewById(R.id.hobbies);
         profile_image = (ImageView) findViewById(R.id.imageprofile);
-        get_info_user();
+        t_title_description = (TextView) findViewById(R.id.title_description);
+        if (savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                extra_name= null;
+            } else {
+                extra_name= extras.getString("EXTRA");
+            }
+        } else {
+            extra_name= (String) savedInstanceState.getSerializable("EXTRA");
+        }
+        get_info_user(extra_name);
 
     }
 
 
-    public void get_info_user(){
+    public void get_info_user(String extra){
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
-        query.getInBackground(extra_name, new GetCallback<ParseUser>() {
-            public void done(ParseUser parseUser, ParseException e) {
+        query.whereEqualTo("name", extra);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> parseUsers, ParseException e) {
                 if (e == null){
+                    ParseObject object = parseUsers.get(0);
                     LoadProfileImage loadProfileImage = new LoadProfileImage();
-                    t_name.setText(parseUser.get("name").toString());
-                    t_age.setText(parseUser.get("age").toString());
-                    t_profession.setText(parseUser.get("profession").toString());
-                    t_hobbies.setText(parseUser.get("hobbies").toString());
-                    t_description.setText(parseUser.get("description").toString());
-                    if (parseUser.get("social").toString().compareTo("facebook") == 0) {
-                        String url = "https://graph.facebook.com/" + parseUser.get("facebook_id") + "/picture?type=normal";
+                    t_name.setText(object.get("name").toString());
+                    t_age.setText(object.get("age").toString() + " " + "years old");
+                    t_profession.setText(object.get("profession").toString());
+                    t_hobbies.setText(object.get("hobbies").toString());
+                    t_description.setText(object.get("description").toString());
+                    if (object.get("social").toString().compareTo("facebook") == 0) {
+                        String url = "https://graph.facebook.com/" + object.get("facebook_id") + "/picture?type=large";
                         loadProfileImage.execute(url);
                     }
-                    else if (parseUser.get("social").toString().compareTo("twitter") == 0) {
-                        String url = "https://twitter.com/" + parseUser.get("name").toString() + "/profile_image?size=normal";
+                    else if (object.get("social").toString().compareTo("twitter") == 0) {
+                        String url = "https://twitter.com/" + object.get("name").toString() + "/profile_image?size=original";
                         loadProfileImage.execute(url);
 
                     }
                     else {
-                        profile_image.setImageResource(R.drawable.geoffrey);
+                        Drawable mydrawable = getResources().getDrawable(R.drawable.bb);
+                        profile_image.setImageDrawable(mydrawable);
                     }
                 }else{
                     //something wrong
@@ -80,8 +103,8 @@ public class ProfileActivity extends Activity {
     }
 
     public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
-        int targetWidth = 50;
-        int targetHeight = 50;
+        int targetWidth = 150;
+        int targetHeight = 150;
         Bitmap targetBitmap = Bitmap.createBitmap(targetWidth,
                 targetHeight,Bitmap.Config.ARGB_8888);
 

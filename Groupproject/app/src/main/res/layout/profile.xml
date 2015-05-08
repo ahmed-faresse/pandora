@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bgprofile">
+
 
     <ImageView
         android:id="@+id/imageprofile"
-        android:layout_marginTop="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
         />
 
     <TextView
@@ -19,6 +21,8 @@
         android:paddingTop="20dp"
         android:gravity="center"
         android:text="Name"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
@@ -39,6 +43,7 @@
         android:text="profession"
         android:paddingTop="10dp"
         android:gravity="center"
+        android:textStyle="italic"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
@@ -51,14 +56,16 @@
         android:layout_marginTop="25dp"
         android:background="#ffffff"/>
 
+
     <TextView
         android:id="@+id/title_description"
         android:layout_below="@+id/hr"
         android:paddingTop="20dp"
         android:textStyle="bold"
         android:textSize="20dp"
+        android:paddingLeft="5dp"
         android:text="@string/description"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -66,6 +73,8 @@
         android:layout_below="@+id/title_description"
         android:layout_width="fill_parent"
         android:paddingTop="10dp"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="10dp"
         android:gravity="left"
         android:text="Details description lorem lorem lorem lorem lorem lorem lorem lorem"
         android:layout_height="wrap_content" />
@@ -76,6 +85,7 @@
         android:paddingTop="30dp"
         android:textStyle="bold"
         android:textSize="20dp"
+        android:paddingLeft="5dp"
         android:text="@string/hobbies"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
@@ -86,6 +96,8 @@
         android:layout_below="@+id/title_hobbies"
         android:layout_width="fill_parent"
         android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:textColor="#FFFFFF"
         android:gravity="left"
         android:text="Details hobbies lorem lorem lorem lorem lorem lorem lorem lorem"
         android:layout_height="wrap_content" />
