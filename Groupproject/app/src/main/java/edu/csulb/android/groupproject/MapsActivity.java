@@ -225,18 +225,19 @@ public class MapsActivity extends FragmentActivity {
                                                double lat = (double)object.get("latitude");
                                                double lng = (double)object.get("longitude");
                                                String name = object.get("name").toString();
+                                               String profession = object.get("profession").toString();
                                                if (object.get("social").toString().compareTo("facebook") == 0) {
                                                    String url = "https://graph.facebook.com/" + (String) object.get("facebook_id") + "/picture?type=small";
                                                    AddCustomMarkerTwFB(lat, lng, name,
-                                                           "Renverseur de Shaker", url);
+                                                           profession, url);
                                                }
                                                else if (object.get("social").toString().compareTo("twitter") == 0) {
                                                    String url = "https://twitter.com/" + name + "/profile_image?size=normal";
                                                    AddCustomMarkerTwFB(lat, lng, name,
-                                                           "Renverseur de Shaker", url);
+                                                           profession, url);
                                                }
                                                else
-                                                   AddCustomMarker(lat, lng, name, "local", R.drawable.geoffrey);
+                                                   AddCustomMarker(lat, lng, name, profession, R.drawable.geoffrey);
                                            }
                                            catch (Exception ex)
                                            {

@@ -28,19 +28,8 @@
         android:textSize="15dip"
         android:layout_marginRight="20dp"
         android:layout_marginEnd="29dp"
-        android:layout_alignTop="@+id/switch_localisation"
-        android:layout_toLeftOf="@+id/switch_localisation"
-        android:layout_toStartOf="@+id/switch_localisation" />
-    <Switch
-        android:id="@+id/switch_localisation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="23dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginTop="32dp" />
+ />
+
 
     <ScrollView
         android:id="@+id/scroll"

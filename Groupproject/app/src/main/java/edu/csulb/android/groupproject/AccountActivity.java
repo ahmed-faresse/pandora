@@ -29,7 +29,6 @@ import java.util.List;
  * Created by ahmed on 07/05/15.
  */
 public class AccountActivity extends Activity {
-    private Switch s_localisation;
     private TextView t_localisation,t_name,t_age,t_profession,t_hobbies,t_description;
     private Button btnsave, btnback;
 
@@ -51,27 +50,8 @@ public class AccountActivity extends Activity {
         t_hobbies = (TextView) findViewById(R.id.hobbies);
         t_description = (TextView) findViewById(R.id.description);
 
-        s_localisation = (Switch) findViewById(R.id.switch_localisation);
-        s_localisation.setChecked(true);
         get_info_user();
 
-        s_localisation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    //Localisation on
-                    t_localisation.setText("Localisation On");
-                    Log.d("Localisation:","On");
-
-                }else{
-                    //Localisation off
-                    t_localisation.setText("Localisation Off");
-                    Log.d("Localisation:", "Off");
-                    GPSTracker gpsTracker = new GPSTracker(getApplicationContext());
-                    gpsTracker.stopUsingGPS();
-                }
-            }
-        });
 
         btnback = (Button)findViewById(R.id.backmap);
         btnback.setOnClickListener(new View.OnClickListener() {
