@@ -16,5 +16,14 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    <style name="Pandora" />
+    <style name="Pandora.TextView" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/com_parse_ui_parse_login_display_text</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Pandora.EditText" parent="@android:style/Widget.EditText">
+        <item name="android:singleLine">true</item>
+    </style>
 
 </resources>

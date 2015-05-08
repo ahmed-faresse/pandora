@@ -43,8 +43,6 @@ public class AccountActivity extends Activity {
                 "Kui6CxsP31Wt54V3P4DciY38k6ODbBPtFMGD6khP");
 
 
-        t_localisation = (TextView) findViewById(R.id.text_localisation);
-        t_name = (TextView) findViewById(R.id.name);
         t_age = (TextView) findViewById(R.id.age);
         t_profession = (TextView) findViewById(R.id.profession);
         t_hobbies = (TextView) findViewById(R.id.hobbies);
