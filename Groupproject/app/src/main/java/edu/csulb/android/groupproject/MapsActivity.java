@@ -241,7 +241,7 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 //Intent intent = new Intent(MainActivity.this,Example.class);
-  g              //startActivity(intent);
+                //startActivity(intent);
                 Log.d("artaerteratae", marker.getTitle() + "yuytdyr");
                 Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT);
             }
@@ -264,6 +264,10 @@ public class MapsActivity extends FragmentActivity {
                 Intent login = new Intent(this, LoginActivity.class);
                 startActivity(login);
                 finish();
+                break;
+            case R.id.Account:
+                Intent account = new Intent(this, AccountActivity.class);
+                startActivity(account);
                 break;
         }
         return true;

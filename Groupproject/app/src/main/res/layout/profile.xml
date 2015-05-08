@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageprofile"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_below="@+id/imageprofile"
+        android:textColor="#FFFFFF"
+        android:paddingTop="20dp"
+        android:gravity="center"
+        android:text="Name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/age"
+        android:layout_below="@+id/name"
+        android:layout_width="fill_parent"
+        android:gravity="center"
+        android:text="age"
+        android:paddingTop="10dp"
+        android:textColor="#FFFFFF"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/profession"
+        android:layout_below="@+id/age"
+        android:textColor="#FFFFFF"
+        android:text="profession"
+        android:paddingTop="10dp"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+
+    <View
+        android:id="@+id/hr"
+        android:layout_below="@+id/profession"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="25dp"
+        android:background="#ffffff"/>
+
+    <TextView
+        android:id="@+id/title_description"
+        android:layout_below="@+id/hr"
+        android:paddingTop="20dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:text="@string/description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_below="@+id/title_description"
+        android:layout_width="fill_parent"
+        android:paddingTop="10dp"
+        android:gravity="left"
+        android:text="Details description lorem lorem lorem lorem lorem lorem lorem lorem"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/title_hobbies"
+        android:layout_below="@+id/description"
+        android:paddingTop="30dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:text="@string/hobbies"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/hobbies"
+        android:layout_below="@+id/title_hobbies"
+        android:layout_width="fill_parent"
+        android:paddingTop="10dp"
+        android:gravity="left"
+        android:text="Details hobbies lorem lorem lorem lorem lorem lorem lorem lorem"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
