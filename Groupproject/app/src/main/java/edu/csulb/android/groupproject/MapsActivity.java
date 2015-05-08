@@ -27,6 +27,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterItem;
+import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.algo.GridBasedAlgorithm;
+import com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm;
+import com.google.maps.android.clustering.algo.PreCachingAlgorithmDecorator;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -51,36 +56,51 @@ import java.util.regex.Pattern;
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private ClusterManager<MarkerCluster> mClusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
-        if (mMap != null)
-        {
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-            mMap.getUiSettings().setZoomGesturesEnabled(true);
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-  //      setUpMapIfNeeded();
-        setUpMap();
+        setUpMapIfNeeded();
+        //setUpMap();
     }
 
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
+        if (mMap != null)
+        return;
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setUpMap();
-            }
+                mMap.getUiSettings().setZoomControlsEnabled(true);
+                mMap.getUiSettings().setZoomGesturesEnabled(true);
+                    mClusterManager = new ClusterManager<>(getApplicationContext(), mMap);
+
+
+                    mClusterManager.setRenderer(new OwnIconRendered(getApplicationContext(), mMap, mClusterManager));
+                    mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener() {
+                        @Override
+                        public boolean onClusterItemClick(ClusterItem marker) {
+                            MarkerCluster markerc = (MarkerCluster) marker;
+                            Log.d("artaerteratae", markerc.getTitle() + "yuytdyr");
+                            Toast.makeText(getApplicationContext(), markerc.getTitle(), Toast.LENGTH_SHORT);
+                            return false;
+                        }
+                    });
+                    mMap.setOnCameraChangeListener(mClusterManager);
+                    mMap.setOnMarkerClickListener(mClusterManager);
+                    if (mMap != null)
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.783768, -118.114336), 10));
+                    setUpMap();
         }
     }
 
@@ -115,19 +135,19 @@ public class MapsActivity extends FragmentActivity {
     {
         if (mMap != null) {
             Bitmap bitmap;
-
+            Boolean exists = false;
             bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
                         getResources(), id_img), 50, 50, false);
 
             Bitmap scaledBitmap = getScaledRoundedRectBitmap(bitmap, 100);
             BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
-            MarkerOptions marker = new MarkerOptions()
-                    .position(new LatLng(lat, lon))
-                    .title(name)
-                    .snippet(desc)
-                    .icon(icon);
-
-            mMap.addMarker(marker);
+            MarkerCluster item = new MarkerCluster(lat, lon, name, desc, icon);
+            for (Marker m : mClusterManager.getMarkerCollection().getMarkers())
+                if (m.getTitle().compareTo(item.getTitle()) == 0)
+                    exists = true;
+            if (!exists)
+                mClusterManager.addItem(item);
+            Log.e("size", ""+mClusterManager.getMarkerCollection().getMarkers().size());
         }
     }
 
@@ -137,8 +157,8 @@ public class MapsActivity extends FragmentActivity {
     {
         if (mMap != null) {
              try {
-                    LoadProfileImage Loader = new LoadProfileImage(lat, lon, name, desc);
-                    Loader.execute(url);
+                    new LoadProfileImage(lat, lon, name, desc).execute(url);
+                    //Loader.execute(url);
                 }
              catch (Exception e)
              {
@@ -180,15 +200,12 @@ public class MapsActivity extends FragmentActivity {
         protected void onPostExecute(Bitmap result) {
             Bitmap scaledBitmap = getScaledRoundedRectBitmap(result, 100);
             BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
-            MarkerOptions marker = new MarkerOptions()
-                    .position(new LatLng(lat, lon))
-                    .title(name)
-                    .snippet(desc)
-                    .icon(icon);
-            mMap.addMarker(marker);
+            MarkerCluster item = new MarkerCluster(lat, lon, name, desc, icon);
+            mClusterManager.addItem(item);
+            mClusterManager.cluster();
+
         }
     }
-
 
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
@@ -198,6 +215,18 @@ public class MapsActivity extends FragmentActivity {
      */
     private void setUpMap()
     {
+
+        /*mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                //Intent intent = new Intent(MainActivity.this,Example.class);
+                //startActivity(intent);
+                Log.d("artaerteratae", marker.getTitle() + "yuytdyr");
+                Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT);
+            }
+        });*/
+
         final ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
 //        query.whereEqualTo("owners", ParseUser.getCurrentUser());
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -232,20 +261,6 @@ public class MapsActivity extends FragmentActivity {
                                        }
                                    }
                                });
-
-        if (mMap != null)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.783768,-118.114336), 10));
-
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                //Intent intent = new Intent(MainActivity.this,Example.class);
-  g              //startActivity(intent);
-                Log.d("artaerteratae", marker.getTitle() + "yuytdyr");
-                Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT);
-            }
-        });
     }
 
     @Override
