@@ -3,6 +3,7 @@
 
     <string name="app_name">Group project</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_account">Account</string>
     <string name="facebook_app_id">675887479207603</string>
     <string name="title_activity_login">Pandora Login</string>
     <string name="btn_logout_from_google">Log out from Google</string>
@@ -15,4 +16,8 @@
     <string name="profile_logout_button_label">Log out</string>
     <string name="profile_title_logged_out">You must be logged in to view your profile</string>
     <string name="profile_login_button_label">Log in</string>
+
+    <string name="description"><ul>Description</ul></string>
+    <string name="hobbies"><ul>Hobbies</ul></string>
+
 </resources>

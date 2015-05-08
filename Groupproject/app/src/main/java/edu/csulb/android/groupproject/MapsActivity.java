@@ -261,6 +261,20 @@ public class MapsActivity extends FragmentActivity {
                                        }
                                    }
                                });
+
+        if (mMap != null)
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.783768,-118.114336), 10));
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                //Intent intent = new Intent(MainActivity.this,Example.class);
+                //startActivity(intent);
+                Log.d("artaerteratae", marker.getTitle() + "yuytdyr");
+                Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT);
+            }
+        });
     }
 
     @Override
@@ -279,6 +293,10 @@ public class MapsActivity extends FragmentActivity {
                 Intent login = new Intent(this, LoginActivity.class);
                 startActivity(login);
                 finish();
+                break;
+            case R.id.Account:
+                Intent account = new Intent(this, AccountActivity.class);
+                startActivity(account);
                 break;
         }
         return true;
