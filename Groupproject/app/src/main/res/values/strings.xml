@@ -4,6 +4,7 @@
     <string name="app_name">Group project</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_account">Account</string>
+    <string name="title_activity_profile">Profile</string>
     <string name="facebook_app_id">675887479207603</string>
     <string name="title_activity_login">Pandora Login</string>
     <string name="btn_logout_from_google">Log out from Google</string>

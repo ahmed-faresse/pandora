@@ -69,7 +69,6 @@ public class MapsActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
-        //setUpMap();
     }
 
     private void setUpMapIfNeeded() {
@@ -147,7 +146,6 @@ public class MapsActivity extends FragmentActivity {
                     exists = true;
             if (!exists)
                 mClusterManager.addItem(item);
-            Log.e("size", ""+mClusterManager.getMarkerCollection().getMarkers().size());
         }
     }
 
@@ -158,7 +156,6 @@ public class MapsActivity extends FragmentActivity {
         if (mMap != null) {
              try {
                     new LoadProfileImage(lat, lon, name, desc).execute(url);
-                    //Loader.execute(url);
                 }
              catch (Exception e)
              {
@@ -215,20 +212,7 @@ public class MapsActivity extends FragmentActivity {
      */
     private void setUpMap()
     {
-
-        /*mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                //Intent intent = new Intent(MainActivity.this,Example.class);
-                //startActivity(intent);
-                Log.d("artaerteratae", marker.getTitle() + "yuytdyr");
-                Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT);
-            }
-        });*/
-
         final ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
-//        query.whereEqualTo("owners", ParseUser.getCurrentUser());
         query.findInBackground(new FindCallback<ParseUser>() {
                                    public void done(List<ParseUser> objects, ParseException e) {
                                        if (objects == null || objects.size() == 0) {
@@ -269,10 +253,10 @@ public class MapsActivity extends FragmentActivity {
 
             @Override
             public void onInfoWindowClick(Marker marker) {
-                //Intent intent = new Intent(MainActivity.this,Example.class);
-                //startActivity(intent);
-                Log.d("artaerteratae", marker.getTitle() + "yuytdyr");
-                Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT);
+                Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                String name = marker.getTitle();
+                intent.putExtra("EXTRA",name);
+                startActivity(intent);
             }
         });
     }
