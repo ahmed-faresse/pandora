@@ -267,6 +267,8 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
                 if (fbUser != null && parseUser != null
                         && fbUser.optString("name").length() > 0) {
                   parseUser.put(USER_OBJECT_NAME_FIELD, fbUser.optString("name"));
+                  parseUser.put("facebook_id", fbUser.optString("id"));
+                  parseUser.put("social", "facebook");
                   parseUser.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -347,6 +349,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
                   Twitter API to fetch it.
                 */
                 user.put(USER_OBJECT_NAME_FIELD, twitterUser.getScreenName());
+                user.put("social", "twitter");
                 user.saveInBackground(new SaveCallback() {
                   @Override
                   public void done(ParseException e) {

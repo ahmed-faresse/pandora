@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
@@ -20,6 +21,7 @@ public class LoginActivity extends Activity {
     private TextView emailTextView;
     private TextView nameTextView;
     private Button loginOrLogoutButton;
+    private GPSTracker gps;
 
     private ParseUser currentUser;
 
@@ -75,6 +77,19 @@ public class LoginActivity extends Activity {
             nameTextView.setText(fullName);
         }
         loginOrLogoutButton.setText(R.string.profile_logout_button_label);*/
+        gps = new GPSTracker(LoginActivity.this);
+
+        // check if GPS enabled
+        if(gps.canGetLocation()){
+            currentUser.put("latitude", gps.getLatitude());
+            currentUser.put("longitude", gps.getLongitude());
+            currentUser.saveInBackground();
+         }else{
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
         Intent maps = new Intent(this, MapsActivity.class);
         startActivity(maps);
 

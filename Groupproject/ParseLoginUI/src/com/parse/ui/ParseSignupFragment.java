@@ -185,6 +185,7 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
       // Set additional custom fields only if the user filled it out
       if (name.length() != 0) {
         user.put(USER_OBJECT_NAME_FIELD, name);
+        user.put("social", "normal");
       }
 
       loadingStart();
