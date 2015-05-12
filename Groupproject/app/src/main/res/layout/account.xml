@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" android:id="@+id/relative"
@@ -9,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="My Account"
         android:id="@+id/textView2"
-        android:textSize="20dip"
+        android:textSize="25dip"
         android:gravity="center"
         android:layout_marginTop="33dp"
         android:layout_alignParentLeft="true"
@@ -22,57 +24,56 @@
         android:id="@+id/scroll"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-    <LinearLayout
-        android:id="@+id/linear"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="150dip"
-        android:gravity="center"
-        >
-
-        <!--User name-->
-        <EditText
-            android:id="@+id/name"
-            android:hint="Name"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/linear"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            style="@style/Pandora.EditText"/>
+            android:orientation="vertical"
+            android:layout_marginTop="150dip"
+            android:gravity="center"
+            >
+
+            <!--User name-->
+            <EditText
+                android:id="@+id/name"
+                android:hint="Name"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
 
 
-        <!--User Age-->
-        <EditText
-            android:id="@+id/age"
-            android:hint="Age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Pandora.EditText"/>
+            <!--User Age-->
+            <EditText
+                android:id="@+id/age"
+                android:layout_below="@+id/name"
+                android:hint="Age"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
 
-        <!--User Profession-->
-        <EditText
-            android:id="@+id/profession"
-            android:hint="Profession"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Pandora.EditText"/>
+            <!--User Profession-->
+            <EditText
+                android:id="@+id/profession"
+                android:layout_below="@+id/age"
+                android:hint="Profession"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
 
 
-        <!--User Hobbies-->
-        <EditText
-            android:id="@+id/hobbies"
-            android:hint="Hobbies"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Pandora.EditText"/>
+            <!--User Hobbies-->
+            <EditText
+                android:id="@+id/hobbies"
+                android:hint="Hobbies"
+                android:layout_below="@+id/profession"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
 
-        <!--User Description-->
-        <EditText
-            android:id="@+id/description"
-            android:hint="Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Pandora.EditText"/>
-    </LinearLayout>
+            <!--User Description-->
+            <EditText
+                android:id="@+id/description"
+                android:hint="Description"
+                android:layout_below="@+id/hobbies"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+        </RelativeLayout>
     </ScrollView>
 
     <Button
@@ -93,4 +94,5 @@
         android:text="Back to the map"
         android:textColor="#FFFFFF"
         android:background="#3085FF"/>
+
 </RelativeLayout>

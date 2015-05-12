@@ -37,12 +37,12 @@ public class AccountActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.account);
+        setContentView(R.layout.accountactivity );
 
         Parse.initialize(this, "fdgb3DiwkZokytY9wwMjxCZXLXnRiRK69YpPPhtX",
                 "Kui6CxsP31Wt54V3P4DciY38k6ODbBPtFMGD6khP");
 
-
+        t_name = (TextView) findViewById(R.id.name);
         t_age = (TextView) findViewById(R.id.age);
         t_profession = (TextView) findViewById(R.id.profession);
         t_hobbies = (TextView) findViewById(R.id.hobbies);
