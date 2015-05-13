@@ -12,48 +12,45 @@ import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
 /**
- * Created by Geoffrey on 5/6/15.
+ * CECS 453 : Group Project
+ * LoginActivity.java
+ * purpose: Login view to log in, register, ask a forgot password
+ *
+ * @author Geoffrey Heckmann
  */
 public class LoginActivity extends Activity {
+    /** Number of login requests */
     private static final int LOGIN_REQUEST = 0;
 
+    /** View components */
     private TextView titleTextView;
     private TextView emailTextView;
     private TextView nameTextView;
-    private Button loginOrLogoutButton;
+
+    /** GPS Tracker */
     private GPSTracker gps;
 
+    /** Current User Parse Object */
     private ParseUser currentUser;
 
+    /**
+     * Get the view components and set the listeners
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.loginlayout);
+
+        /** Get the view components */
         titleTextView = (TextView) findViewById(R.id.profile_title);
         emailTextView = (TextView) findViewById(R.id.profile_email);
         nameTextView = (TextView) findViewById(R.id.profile_name);
-        loginOrLogoutButton = (Button) findViewById(R.id.login_or_logout_button);
         titleTextView.setText(R.string.profile_title_logged_in);
-
-        loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentUser != null) {
-                    // User clicked to log out.
-                    ParseUser.logOut();
-                    currentUser = null;
-                    showProfileLoggedOut();
-                } else {
-                    // User clicked to log in.
-                    ParseLoginBuilder loginBuilder = new ParseLoginBuilder(
-                            LoginActivity.this);
-                    startActivityForResult(loginBuilder.build(), LOGIN_REQUEST);
-                }
-            }
-        });
     }
 
+    /** Get the user currently logged in if there is one */
     @Override
     protected void onStart() {
         super.onStart();
@@ -67,42 +64,35 @@ public class LoginActivity extends Activity {
     }
 
     /**
-     * Shows the profile of the given user.
+     * Get the Location of the user and redirect him to the map activity
      */
     private void showProfileLoggedIn() {
-        /**titleTextView.setText(R.string.profile_title_logged_in);
-        emailTextView.setText(currentUser.getEmail());
-        String fullName = currentUser.getString("name");
-        if (fullName != null) {
-            nameTextView.setText(fullName);
-        }
-        loginOrLogoutButton.setText(R.string.profile_logout_button_label);*/
+        /** Create a new GPS tracker object */
         gps = new GPSTracker(LoginActivity.this);
 
-        // check if GPS enabled
+        /** check if GPS enabled */
         if(gps.canGetLocation()){
+            /** Save location in Parse */
             currentUser.put("latitude", gps.getLatitude());
             currentUser.put("longitude", gps.getLongitude());
             currentUser.saveInBackground();
          }else{
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
+            /** can't get location
+             * GPS or Network is not enabled
+             * Ask user to enable GPS/network in
+             */
             gps.showSettingsAlert();
         }
+        /** Start map activity */
         Intent maps = new Intent(this, MapsActivity.class);
         startActivity(maps);
 
     }
 
     /**
-     * Show a message asking the user to log in, toggle login/logout button text.
+     * Show the Login view
      */
     private void showProfileLoggedOut() {
-        /**titleTextView.setText(R.string.profile_title_logged_out);
-        emailTextView.setText("");
-        nameTextView.setText("");
-        loginOrLogoutButton.setText(R.string.profile_login_button_label);*/
         ParseLoginBuilder loginBuilder = new ParseLoginBuilder(
                 LoginActivity.this);
         startActivityForResult(loginBuilder.build(), LOGIN_REQUEST);

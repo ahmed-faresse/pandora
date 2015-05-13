@@ -7,7 +7,11 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 
 /**
- * Created by Geoffrey on 5/6/15.
+ * CECS 453 : Group Project
+ * Login.java
+ * purpose: Initialize the Login with Parse Library, Twitter and Facebook
+ *
+ * @author Geoffrey Heckmann
  */
 public class Login extends Application {
     @Override
